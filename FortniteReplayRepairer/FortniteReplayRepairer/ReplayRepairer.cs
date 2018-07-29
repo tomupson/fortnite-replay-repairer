@@ -67,21 +67,12 @@ namespace FortniteReplayRepairer
                 }
                 catch (IOException ex)
                 {
-                    this.InvokeMember("Hide", null);
                     new Error(new FormExceptionDetails
                     {
                         SourceForm = this,
                         Exception = ex
                     }).ShowDialog();
-                }
-                catch (Exception ex)
-                {
-                    this.InvokeMember("Hide", null);
-                    new Error(new FormExceptionDetails
-                    {
-                        SourceForm = this,
-                        Exception = ex
-                    }).ShowDialog();
+                    Environment.Exit(0);
                 }
 
                 validReplayFileTextbox.Text = replayFileName;
@@ -98,8 +89,9 @@ namespace FortniteReplayRepairer
                 new Error(new FormExceptionDetails
                 {
                     SourceForm = this,
-                    Exception = new IOException($"The directory {demosDirectory} does not exist.")
-                });
+                    Exception = new IOException($"The demos directory {demosDirectory} does not exist.\r\nIf you have your demos directory in another location, please report this issue using the button below.")
+                }).ShowDialog();
+                Environment.Exit(0);
             }
 
             string[] files = Directory.GetFiles(demosDirectory, "*.replay", SearchOption.TopDirectoryOnly);
@@ -112,7 +104,19 @@ namespace FortniteReplayRepairer
 
             if (!Directory.Exists(backupDirectory))
             {
-                Directory.CreateDirectory(backupDirectory);
+                try
+                {
+                    Directory.CreateDirectory(backupDirectory);
+                }
+                catch (IOException ex)
+                {
+                    new Error(new FormExceptionDetails
+                    {
+                        SourceForm = this,
+                        Exception = ex
+                    }).ShowDialog();
+                    Environment.Exit(0);
+                }
             }
             
             foreach (string file in files)
@@ -143,21 +147,12 @@ namespace FortniteReplayRepairer
                 }
                 catch (IOException ex)
                 {
-                    this.InvokeMember("Hide", null);
                     new Error(new FormExceptionDetails
                     {
                         SourceForm = this,
                         Exception = ex
                     }).ShowDialog();
-                }
-                catch (Exception ex)
-                {
-                    this.InvokeMember("Hide", null);
-                    new Error(new FormExceptionDetails
-                    {
-                        SourceForm = this,
-                        Exception = ex
-                    }).ShowDialog();
+                    Environment.Exit(0);
                 }
 
                 conversionProgressBar.InvokeMember("PerformStep", null);

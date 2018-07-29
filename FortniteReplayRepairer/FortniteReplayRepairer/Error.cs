@@ -21,8 +21,8 @@ namespace FortniteReplayRepairer
             formExceptionDetails.SourceForm.Hide();
         }
 
-        private void reportIssueButton_Click(object sender, System.EventArgs e) => Process.Start("https://github.com/UppyMeister/FortniteReplayRepairer/issues/new");
+        private void reportIssueButton_Click(object sender, EventArgs e) => Process.Start("https://github.com/UppyMeister/FortniteReplayRepairer/issues/new");
 
-        private void exitButton_Click(object sender, System.EventArgs e) => Environment.Exit(0);
+        private void exitButton_Click(object sender, EventArgs e) => Environment.Exit(0);
     }
 }
