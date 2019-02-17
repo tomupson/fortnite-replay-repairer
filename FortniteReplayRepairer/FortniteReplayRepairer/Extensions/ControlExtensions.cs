@@ -11,12 +11,11 @@ namespace FortniteReplayRepairer.Extensions
             object output = null;
             if (control.InvokeRequired)
             {
-                control.Invoke((Action) delegate
-                {
-                    output = control.GetType().GetProperty(propName)?.GetValue(control);
-                });
-            }
-            else
+                control.Invoke((Action)delegate
+               {
+                   output = control.GetType().GetProperty(propName)?.GetValue(control);
+               });
+            } else
             {
                 output = control.GetType().GetProperty(propName)?.GetValue(control);
             }
@@ -28,13 +27,12 @@ namespace FortniteReplayRepairer.Extensions
         {
             if (control.InvokeRequired)
             {
-                control.Invoke((Action) delegate
-                {
-                    control.GetType().GetProperty(propName)?.SetValue(control, value);
+                control.Invoke((Action)delegate
+               {
+                   control.GetType().GetProperty(propName)?.SetValue(control, value);
 
-                });
-            }
-            else
+               });
+            } else
             {
                 control.GetType().GetProperty(propName)?.SetValue(control, value);
             }
@@ -45,12 +43,11 @@ namespace FortniteReplayRepairer.Extensions
             object retObj = null;
             if (control.InvokeRequired)
             {
-                control.Invoke((Action) delegate
-                {
-                    retObj = control.GetType().InvokeMember(methodName, BindingFlags.InvokeMethod | BindingFlags.Instance | BindingFlags.Public, Type.DefaultBinder, control, values);
-                });
-            }
-            else
+                control.Invoke((Action)delegate
+               {
+                   retObj = control.GetType().InvokeMember(methodName, BindingFlags.InvokeMethod | BindingFlags.Instance | BindingFlags.Public, Type.DefaultBinder, control, values);
+               });
+            } else
             {
                 retObj = control.GetType().InvokeMember(methodName, BindingFlags.InvokeMethod | BindingFlags.Instance | BindingFlags.Public, Type.DefaultBinder, control, values);
             }

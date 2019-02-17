@@ -1,4 +1,4 @@
-﻿namespace FortniteReplayRepairer
+﻿namespace FortniteReplayRepairer.Forms
 {
     partial class FAQ
     {

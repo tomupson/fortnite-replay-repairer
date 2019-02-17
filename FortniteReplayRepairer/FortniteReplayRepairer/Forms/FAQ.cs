@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace FortniteReplayRepairer
+namespace FortniteReplayRepairer.Forms
 {
     public partial class FAQ : Form
     {

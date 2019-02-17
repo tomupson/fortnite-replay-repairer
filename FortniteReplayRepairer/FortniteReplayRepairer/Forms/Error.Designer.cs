@@ -1,4 +1,4 @@
-﻿namespace FortniteReplayRepairer
+﻿namespace FortniteReplayRepairer.Forms
 {
     partial class Error
     {
@@ -69,7 +69,7 @@
             this.reportIssueButton.Name = "reportIssueButton";
             this.reportIssueButton.Size = new System.Drawing.Size(133, 23);
             this.reportIssueButton.TabIndex = 3;
-            this.reportIssueButton.Text = "Report Issue on Github";
+            this.reportIssueButton.Text = "Report Issue on GitHub";
             this.reportIssueButton.UseVisualStyleBackColor = true;
             this.reportIssueButton.Click += new System.EventHandler(this.reportIssueButton_Click);
             // 

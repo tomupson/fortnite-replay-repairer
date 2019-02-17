@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using FortniteReplayRepairer.Models;
 
-namespace FortniteReplayRepairer
+namespace FortniteReplayRepairer.Forms
 {
     public partial class Error : Form
     {
@@ -21,7 +21,7 @@ namespace FortniteReplayRepairer
             formExceptionDetails.SourceForm.Hide();
         }
 
-        private void reportIssueButton_Click(object sender, EventArgs e) => Process.Start("https://github.com/UppyMeister/FortniteReplayRepairer/issues/new");
+        private void reportIssueButton_Click(object sender, EventArgs e) => Process.Start("https://github.com/tomupson/FortniteReplayRepairer/issues/new");
 
         private void exitButton_Click(object sender, EventArgs e) => Environment.Exit(0);
     }

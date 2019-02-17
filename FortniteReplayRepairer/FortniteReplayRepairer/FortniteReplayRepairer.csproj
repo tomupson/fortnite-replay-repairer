@@ -8,9 +8,10 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>FortniteReplayRepairer</RootNamespace>
     <AssemblyName>FortniteReplayRepairer</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,55 +46,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Error.cs">
+    <Compile Include="Forms\Error.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Error.Designer.cs">
+    <Compile Include="Forms\Error.Designer.cs">
       <DependentUpon>Error.cs</DependentUpon>
     </Compile>
     <Compile Include="Extensions\ControlExtensions.cs" />
-    <Compile Include="FAQ.cs">
+    <Compile Include="Forms\FAQ.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FAQ.Designer.cs">
+    <Compile Include="Forms\FAQ.Designer.cs">
       <DependentUpon>FAQ.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DirectoryHelper.cs" />
+    <Compile Include="Helpers\StreamHelper.cs" />
     <Compile Include="Models\FormExceptionDetails.cs" />
-    <Compile Include="ReplayRepairer.cs">
+    <Compile Include="Forms\ReplayRepairer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ReplayRepairer.designer.cs">
+    <Compile Include="Forms\ReplayRepairer.designer.cs">
       <DependentUpon>ReplayRepairer.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Error.resx">
+    <EmbeddedResource Include="Forms\Error.resx">
       <DependentUpon>Error.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FAQ.resx">
+    <EmbeddedResource Include="Forms\FAQ.resx">
       <DependentUpon>FAQ.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="ReplayRepairer.resx">
+    <EmbeddedResource Include="Forms\ReplayRepairer.resx">
       <DependentUpon>ReplayRepairer.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
