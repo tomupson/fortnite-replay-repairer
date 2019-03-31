@@ -13,8 +13,8 @@ namespace FortniteReplayRepairer.Forms
     {
         private const int REPLAY_BYTES_OFFSET = 16;
         private byte[] versionBuffer = new byte[3];
-        private Regex unsavedReplayRegex = new Regex(@"UnsavedReplay-\d{4}\.(0[1-9]|1[0-2])\.(0\d|1\d|2\d|3[0-1])-([0-1]\d|2[0-3]).[0-5]\d.[0-5]\d");
-        private readonly string demosDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"FortniteGame\Saved\Demos");
+        private readonly Regex _unsavedReplayRegex = new Regex(@"UnsavedReplay-\d{4}\.(0[1-9]|1[0-2])\.(0\d|1\d|2\d|3[0-1])-([0-1]\d|2[0-3]).[0-5]\d.[0-5]\d");
+        private readonly string _demosDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"FortniteGame\Saved\Demos");
 
         public ReplayRepairer() => InitializeComponent();
 
@@ -48,7 +48,7 @@ namespace FortniteReplayRepairer.Forms
             OpenFileDialog browse = new OpenFileDialog
             {
                 Filter = "Replay Files (*.replay) | *.replay",
-                InitialDirectory = demosDirectory
+                InitialDirectory = _demosDirectory
             };
 
             if (browse.ShowDialog() == DialogResult.OK)
@@ -75,23 +75,23 @@ namespace FortniteReplayRepairer.Forms
             string validReplayFilePath = validReplayFileTextbox.Text;
             if (string.IsNullOrWhiteSpace(validReplayFilePath) || !File.Exists(validReplayFilePath)) return;
 
-            if (!Directory.Exists(demosDirectory))
+            if (!Directory.Exists(_demosDirectory))
             {
                 new Error(new FormExceptionDetails
                 {
                     SourceForm = this,
-                    Exception = new IOException($"The demos directory {demosDirectory} does not exist.\r\nIf you have your demos directory in another location, please report this issue using the button below.")
+                    Exception = new IOException($"The demos directory {_demosDirectory} does not exist.\r\nIf you have your demos directory in another location, please report this issue using the button below.")
                 }).ShowDialog();
                 Environment.Exit(0);
             }
 
-            string[] filePaths = Directory.GetFiles(demosDirectory, "*.replay", SearchOption.TopDirectoryOnly);
+            string[] filePaths = Directory.GetFiles(_demosDirectory, "*.replay", SearchOption.TopDirectoryOnly);
 
             conversionProgressBar.Value = 0;
             conversionProgressBar.Maximum = filePaths.Length;
 
             bool convertOnlyNamed = convertOnlyNamedCheckbox.Checked;
-            string backupDirectoryPath = Path.Combine(demosDirectory, "Backup");
+            string backupDirectoryPath = Path.Combine(_demosDirectory, "Backup");
 
             try
             {
@@ -108,15 +108,13 @@ namespace FortniteReplayRepairer.Forms
 
             try
             {
-                // async not necessarily required here, as the lambda function here is being executed on some arbitrary thread other than the UI thread.
-                // So if async is removed, and WriteBytesAsync would run synchronously and only block the random thread-pool thread. But hey, why not.
                 await Task.Run(async () =>
                 {
                     foreach (string filePath in filePaths)
                     {
                         FileInfo file = new FileInfo(filePath);
 
-                        if (convertOnlyNamed && unsavedReplayRegex.Match(Path.GetFileNameWithoutExtension(file.FullName)).Success)
+                        if (convertOnlyNamed && _unsavedReplayRegex.Match(Path.GetFileNameWithoutExtension(file.FullName)).Success)
                         {
                             conversionProgressBar.InvokeMember("Perform Step");
                             return;
