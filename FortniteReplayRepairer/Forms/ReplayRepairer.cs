@@ -108,18 +108,20 @@ namespace FortniteReplayRepairer.Forms
 
             try
             {
-                await Task.Run(async () =>
+                foreach (string filePath in filePaths)
                 {
-                    foreach (string filePath in filePaths)
+                    FileInfo file = new FileInfo(filePath);
+
+                    bool unsaved = _unsavedReplayRegex.Match(Path.GetFileNameWithoutExtension(file.FullName)).Success;
+
+                    if (convertOnlyNamed && unsaved)
                     {
-                        FileInfo file = new FileInfo(filePath);
+                        conversionProgressBar.InvokeMember("Perform Step");
+                        return;
+                    }
 
-                        if (convertOnlyNamed && _unsavedReplayRegex.Match(Path.GetFileNameWithoutExtension(file.FullName)).Success)
-                        {
-                            conversionProgressBar.InvokeMember("Perform Step");
-                            return;
-                        }
-
+                    if (!unsaved)
+                    {
                         string backupFilePath = Path.Combine(backupDirectoryPath, file.Name);
                         if (File.Exists(backupFilePath))
                         {
@@ -127,12 +129,12 @@ namespace FortniteReplayRepairer.Forms
                         }
 
                         file.CopyTo(backupFilePath);
-
-                        await StreamHelper.WriteBytesAsync(filePath, versionBuffer, REPLAY_BYTES_OFFSET);
-
-                        conversionProgressBar.InvokeMember("PerformStep");
                     }
-                });
+
+                    await StreamHelper.WriteBytesAsync(filePath, versionBuffer, REPLAY_BYTES_OFFSET).ConfigureAwait(false);
+
+                    conversionProgressBar.InvokeMember("PerformStep");
+                }
             } catch (Exception ex)
             {
                 new Error(new FormExceptionDetails
