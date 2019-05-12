@@ -5,8 +5,10 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet build'
+- task: MSBuild@1
+  displayName: "msbuild"
   inputs:
-    command: build
-    arguments: '--configuration Release'
+    solution: '**/*.sln'
+    configuration: 'Release'
+    clean: true
+    restoreNugetPackages: true
