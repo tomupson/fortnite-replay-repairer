@@ -5,4 +5,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo WIP
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    command: build
+    arguments: '--configuration $(BuildConfiguration)'
