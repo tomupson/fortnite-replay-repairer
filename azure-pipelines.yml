@@ -9,4 +9,4 @@ steps:
   displayName: 'dotnet build'
   inputs:
     command: build
-    arguments: '--configuration $(BuildConfiguration)'
+    arguments: '--configuration Release'
