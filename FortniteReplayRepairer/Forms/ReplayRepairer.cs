@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using FortniteReplayRepairer.Helpers;
 using FortniteReplayRepairer.Models;
@@ -12,14 +11,14 @@ namespace FortniteReplayRepairer.Forms
     public partial class ReplayRepairer : Form
     {
         private const int REPLAY_BYTES_OFFSET = 16;
-        private byte[] versionBuffer = new byte[3];
+        private readonly byte[] versionBuffer = new byte[3];
         private readonly Regex _unsavedReplayRegex = new Regex(@"UnsavedReplay-\d{4}\.(0[1-9]|1[0-2])\.(0\d|1\d|2\d|3[0-1])-([0-1]\d|2[0-3]).[0-5]\d.[0-5]\d");
         private readonly string _demosDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"FortniteGame\Saved\Demos");
 
         public ReplayRepairer() => InitializeComponent();
 
         #region Toolbar Option Handlers
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to exit?", "Exit?", MessageBoxButtons.YesNo, MessageBoxIcon.None) == DialogResult.Yes)
             {
@@ -38,12 +37,7 @@ namespace FortniteReplayRepairer.Forms
         }
         #endregion
 
-        private async Task ReadVersionBytesAsync(string fileName)
-        {
-            versionBuffer = await StreamHelper.ReadBytesAsync(fileName, REPLAY_BYTES_OFFSET, versionBuffer.Length);
-        }
-
-        private async void browseButton_Click(object sender, EventArgs e)
+        private async void BrowseButton_Click(object sender, EventArgs e)
         {
             OpenFileDialog browse = new OpenFileDialog
             {
@@ -53,9 +47,11 @@ namespace FortniteReplayRepairer.Forms
 
             if (browse.ShowDialog() == DialogResult.OK)
             {
+                validReplayFileTextbox.Text = browse.FileName;
+
                 try
                 {
-                    await Task.Run(() => ReadVersionBytesAsync(browse.FileName));
+                    await StreamHelper.ReadBytesAsync(browse.FileName, REPLAY_BYTES_OFFSET, versionBuffer.Length).ConfigureAwait(false);
                 } catch (Exception ex)
                 {
                     new Error(new FormExceptionDetails
@@ -66,11 +62,9 @@ namespace FortniteReplayRepairer.Forms
                     Environment.Exit(0);
                 }
             }
-
-            validReplayFileTextbox.Text = browse.FileName;
         }
 
-        private async void startButton_Click(object sender, EventArgs e)
+        private async void StartButton_Click(object sender, EventArgs e)
         {
             string validReplayFilePath = validReplayFileTextbox.Text;
             if (string.IsNullOrWhiteSpace(validReplayFilePath) || !File.Exists(validReplayFilePath)) return;
@@ -131,9 +125,9 @@ namespace FortniteReplayRepairer.Forms
                         file.CopyTo(backupFilePath);
                     }
 
-                    await StreamHelper.WriteBytesAsync(filePath, versionBuffer, REPLAY_BYTES_OFFSET).ConfigureAwait(false);
-
                     conversionProgressBar.InvokeMember("PerformStep");
+
+                    await StreamHelper.WriteBytesAsync(filePath, versionBuffer, REPLAY_BYTES_OFFSET).ConfigureAwait(false);
                 }
             } catch (Exception ex)
             {
