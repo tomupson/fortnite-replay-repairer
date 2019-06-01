@@ -1,0 +1,14 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: MSBuild@1
+  displayName: "msbuild"
+  inputs:
+    solution: '**/*.sln'
+    configuration: 'Release'
+    clean: true
+    restoreNugetPackages: true
