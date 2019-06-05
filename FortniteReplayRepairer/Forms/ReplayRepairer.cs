@@ -11,7 +11,7 @@ namespace FortniteReplayRepairer.Forms
     public partial class ReplayRepairer : Form
     {
         private const int REPLAY_BYTES_OFFSET = 16;
-        private readonly byte[] versionBuffer = new byte[3];
+        private byte[] versionBuffer = new byte[3];
         private readonly Regex _unsavedReplayRegex = new Regex(@"UnsavedReplay-\d{4}\.(0[1-9]|1[0-2])\.(0\d|1\d|2\d|3[0-1])-([0-1]\d|2[0-3]).[0-5]\d.[0-5]\d");
         private readonly string _demosDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"FortniteGame\Saved\Demos");
 
@@ -26,9 +26,9 @@ namespace FortniteReplayRepairer.Forms
             }
         }
 
-        private void faqToolStripMenuItem_Click(object sender, EventArgs e) => new FAQ().ShowDialog();
+        private void FaqToolStripMenuItem_Click(object sender, EventArgs e) => new FAQ().ShowDialog();
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Fortnite Replay Repairer is a simple program that allows you to repair corrupted replay files.\r\n\r\nCreated by Thomas Upson\r\nhttps://github.com/tomupson",
                 "About",
@@ -51,7 +51,7 @@ namespace FortniteReplayRepairer.Forms
 
                 try
                 {
-                    await StreamHelper.ReadBytesAsync(browse.FileName, REPLAY_BYTES_OFFSET, versionBuffer.Length).ConfigureAwait(false);
+                    versionBuffer = await StreamHelper.ReadBytesAsync(browse.FileName, REPLAY_BYTES_OFFSET, versionBuffer.Length).ConfigureAwait(false);
                 } catch (Exception ex)
                 {
                     new Error(new FormExceptionDetails
