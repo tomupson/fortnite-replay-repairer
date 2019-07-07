@@ -110,8 +110,8 @@ namespace FortniteReplayRepairer.Forms
 
                     if (convertOnlyNamed && unsaved)
                     {
-                        conversionProgressBar.InvokeMember("Perform Step");
-                        return;
+                        conversionProgressBar.InvokeMember("PerformStep");
+                        continue;
                     }
 
                     if (!unsaved)
